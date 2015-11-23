@@ -1,17 +1,14 @@
 precision mediump float;
 
-uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
-
-uniform mat4 inverseModel;
-uniform mat4 inverseView;
-uniform mat4 inverseProjection;
-
 uniform vec3 diffuse;
 uniform vec3 lightDirection;
+varying vec3 fragNormal;
+
 uniform float numBands;
 
 void main() {
-  gl_FragColor = vec4(1,1,1,1);
+  float lambertWeight = max(dot(normalize(fragNormal), normalize(lightDirection)), 0.0);
+  lambertWeight = ceil(lambertWeight * numBands) / numBands;
+  vec3 lightColor = diffuse * lambertWeight;
+  gl_FragColor = vec4(lightColor, 1);
 }

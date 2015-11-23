@@ -12,6 +12,9 @@ uniform vec3 ambient;
 uniform vec3 diffuse;
 uniform vec3 lightDirection;
 
+varying vec4 vColor;
+
+
 void main() {
-  gl_FragColor = vec4(1,1,1,1);
+  gl_FragColor = vColor;
 }

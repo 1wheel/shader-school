@@ -11,10 +11,13 @@ uniform mat4 inverseModel;
 uniform mat4 inverseView;
 uniform mat4 inverseProjection;
 
-uniform vec3 diffuse;
-uniform vec3 lightDirection;
-uniform float numBands;
+varying vec3 fragNormal;
 
 void main() {
-  gl_Position = vec4(position,1);
+  vec4 worldPosition = model * vec4(position, 1.0);
+  vec4 worldNormal = vec4(normal, 0.0) * inverseModel;
+
+  gl_Position = projection * view * worldPosition;
+  fragNormal = worldNormal.xyz;
 }
+

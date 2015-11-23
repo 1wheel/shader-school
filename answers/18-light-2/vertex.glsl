@@ -15,6 +15,17 @@ uniform vec3 ambient;
 uniform vec3 diffuse;
 uniform vec3 lightDirection;
 
+varying vec4 vColor;
+
+
 void main() {
-  gl_Position = vec4(position, 1);
+  gl_Position = projection*view*model*vec4(position, 1);
+
+  vec4 inverseNormal = vec4(normal, 0)*inverseModel*inverseView;
+
+ 	float brightness = dot(normalize(inverseNormal.xyz), normalize(lightDirection));
+	vec3 color = ambient + diffuse * max(brightness, 0.0);
+	vColor = vec4(color, 1);
 }
+
+
